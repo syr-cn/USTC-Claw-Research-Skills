@@ -1,50 +1,33 @@
 # Install USTC Claw Research Skills
 
-## One-Line Install
+## 一句话安装 + 配置
 
-Run this in your terminal:
+把这句话发给你的 OpenClaw agent：
+
+```
+安装这个 repo：https://github.com/syr-cn/USTC-Claw-Research-Skills ，并且配置我的偏好：memory agent 的 RL 训练
+```
+
+Agent 会自动完成：
+1. `git clone` 到 skills 目录
+2. 根据你的偏好生成 `config.yaml`
+3. 后续 survey / deep note 自动按你的方向排序和推荐
+
+## 手动安装（如果你想自己来）
 
 ```bash
-cd ~/.openclaw/workspace/skills && git clone https://github.com/syr-cn/USTC-Claw-Research-Skills.git
+cd ~/.openclaw/workspace/skills
+git clone https://github.com/syr-cn/USTC-Claw-Research-Skills.git
 ```
 
-Or tell your OpenClaw agent:
-
-```
-帮我安装 USTC Claw Research Skills：
-git clone https://github.com/syr-cn/USTC-Claw-Research-Skills.git 到 ~/.openclaw/workspace/skills/
-```
-
-## What Gets Installed
-
-```
-~/.openclaw/workspace/skills/USTC-Claw-Research-Skills/
-├── SKILL.md              # Root skill (auto-detected by OpenClaw)
-├── skills/
-│   ├── paper-survey/     # 论文综述 skill
-│   │   └── SKILL.md
-│   └── deep-note/        # 深度阅读笔记 skill
-│       └── SKILL.md
-├── docs/
-│   └── install.md        # This file
-└── README.md
-```
-
-## Optional: Set Your Research Direction
-
-After install, tell your agent your research interests for personalized results:
-
-```
-我的研究方向是：[你的方向，例如：强化学习 + LLM推理 + Agent记忆系统]
-```
+然后告诉 agent：`我的研究方向是：[你的方向]`
 
 ## Usage
 
-- **Survey a topic:** `survey [研究方向]` or `帮我调研 [方向]`
-- **Read a paper:** `deep note [arXiv link]` or `帮我读 [论文链接]`
+- **Survey:** `survey [方向]` or `帮我调研 [方向]`
+- **Deep Note:** `deep note [arXiv link]` or `帮我读 [链接]`
 
 ## Requirements
 
-- OpenClaw with web search enabled (Tavily or Brave)
-- `web_fetch` tool for accessing arXiv
+- OpenClaw with web search (Tavily or Brave)
 - No additional API keys needed
