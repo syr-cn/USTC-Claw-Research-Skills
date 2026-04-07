@@ -59,6 +59,17 @@ metadata:
 |---|-------|--------|------|
 | 1 | **Paper Survey** 📡 | `survey [方向]` / `帮我调研 [方向]` | 给定研究方向，自动搜索 arXiv 论文，生成结构化 survey 报告 |
 | 2 | **Deep Note** 📝 | `deep note [arXiv link]` / `帮我读 [link]` | 给定论文，生成 7-section 深度阅读笔记 |
+| 3 | **Preference Evolving** 🧬 | 自动触发 / `更新偏好` | 从交互中学习研究偏好，持续更新 config.yaml 权重 |
+
+## Preference Evolving 机制
+
+Agent 会在每次 survey / deep note 交互后自动检测偏好信号：
+- 👍 正面反馈（"这篇不错"）→ 提升关键词权重
+- 👎 负面反馈（"不太相关"）→ 降低关键词权重
+- 🆕 新方向请求 → 自动添加新关键词
+- 📉 反复忽略某类论文 → 标记为低优先级
+
+所有变更记录在 `config.yaml` 的 `preference_history` 中，完全透明可追溯。
 
 ## Config 说明
 

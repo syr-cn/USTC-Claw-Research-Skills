@@ -91,6 +91,17 @@ Output a brief summary in chat with the file path and the one-line summary.
 
 ---
 
+## Step 5 — Update Preferences
+
+After delivering the deep note, observe user feedback:
+- If user finds the paper valuable → boost related topic keywords in config.yaml
+- If user says it was not useful → reduce related topic weights
+- If this paper introduces a new research direction for the user → add as new interest
+
+Follow the procedure in `skills/preference-evolving/SKILL.md` to update config.yaml.
+
+---
+
 ## Quality Guidelines
 - Be specific: quote numbers, name techniques, reference figures/tables
 - Be critical: don't just summarize — evaluate strengths AND weaknesses

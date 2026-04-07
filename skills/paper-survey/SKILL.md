@@ -89,6 +89,17 @@ Output a brief summary in chat with the file path.
 
 ---
 
+## Step 6 — Update Preferences
+
+After delivering the survey report, observe user feedback:
+- If user highlights specific papers positively → boost those topic keywords in config.yaml
+- If user says certain papers are irrelevant → reduce those topic weights
+- If user requests a follow-up survey on a sub-topic → add that as a new interest
+
+Follow the procedure in `skills/preference-evolving/SKILL.md` to update config.yaml.
+
+---
+
 ## Tips
 - Prefer papers from the last 12 months unless the topic requires historical context
 - Include both highly-cited foundational work AND cutting-edge preprints

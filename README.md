@@ -8,6 +8,7 @@
 |-------|---------|-------------|
 | **Paper Survey** 📡 | `survey [topic]` | 给定研究方向，自动搜索 arXiv 论文，生成结构化 survey 报告 |
 | **Deep Note** 📝 | `deep note [link]` | 给定一篇论文，生成 7-section 深度阅读笔记 |
+| **Preference Evolving** 🧬 | 自动 | 从交互中持续学习你的研究偏好，越用越准 |
 
 ## 一句话安装 + 配置
 
@@ -18,6 +19,8 @@
 ```
 
 Agent 会自动：clone 仓库 → 解析你的方向 → 生成 `config.yaml` → 开箱即用 ✨
+
+随着使用，agent 会从你的反馈中持续学习偏好（"这篇不错" / "不太相关"），自动调整推荐权重。
 
 ## Usage
 
