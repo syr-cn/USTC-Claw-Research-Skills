@@ -4,11 +4,21 @@
 
 ## Features
 
-| Skill | Command | Description |
-|-------|---------|-------------|
-| **Paper Survey** 📡 | `survey [topic]` | 给定研究方向，自动搜索 arXiv 论文，生成结构化 survey 报告 |
-| **Deep Note** 📝 | `deep note [link]` | 给定一篇论文，生成 7-section 深度阅读笔记 |
+| Skill | 命令 | 功能说明 |
+|-------|------|----------|
+| **Paper Survey** 📡 | `survey [方向]` | 给定研究方向，自动搜索 arXiv 论文，生成结构化 survey 报告 |
+| **Deep Note** 📝 | `deep note [链接]` | 给定一篇论文，生成 7 段式深度阅读笔记 |
 | **Preference Evolving** 🧬 | 自动 | 从交互中持续学习你的研究偏好，越用越准 |
+
+## 首次使用引导
+
+首次激活 skill 时，如果检测到 `config.yaml` 不存在，会自动引导你配置研究偏好：
+
+1. 提示你输入感兴趣的研究方向（支持多个，逗号分隔）
+2. 自动解析关键词并生成 `config.yaml`
+3. 配置完成后即可开始使用
+
+无需手动创建配置文件，开箱即用。
 
 ## 一句话安装 + 配置
 

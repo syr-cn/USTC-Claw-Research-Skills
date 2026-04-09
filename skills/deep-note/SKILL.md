@@ -1,110 +1,108 @@
 ---
 name: deep-note
 description: >
-  Given a specific paper (arXiv link or ID), generate a structured Deep Note
-  with 7 sections covering motivation, method, experiments, and critical analysis.
-  Trigger: deep note, 帮我读, 论文笔记, read this paper.
+  给定一篇论文（arXiv 链接或 ID），生成包含 7 个部分的结构化深度阅读笔记，
+  涵盖动机、方法、实验和批判性分析。
+  触发词：deep note, 帮我读, 论文笔记, read this paper。
 ---
 
-# Deep Note — Single-Paper Deep Reading Note
+# Deep Note — 单篇论文深度阅读笔记
 
-## Goal
-Given one paper (arXiv link, ID, or PDF URL), produce a structured 7-section deep
-reading note in markdown.
+## 目标
+给定一篇论文（arXiv 链接、ID 或 PDF URL），生成结构化的 7 段式深度阅读笔记（markdown 格式）。
 
-## Triggers
-`deep note [link]` · `帮我读 [link]` · `论文笔记 [link]` · `read this paper [link]`
+## 触发词
+`deep note [链接]` · `帮我读 [链接]` · `论文笔记 [链接]` · `read this paper [链接]`
 
 ---
 
-## Step 1 — Parse Input
+## 第 1 步 — 解析输入
 
-Extract the paper identifier:
-- arXiv link → extract ID (e.g., `2401.12345`)
-- arXiv ID → use directly
-- PDF URL → fetch and process
+提取论文标识符：
+- arXiv 链接 → 提取 ID（如 `2401.12345`）
+- arXiv ID → 直接使用
+- PDF URL → 获取并处理
 
-## Step 2 — Fetch Paper Content
+## 第 2 步 — 获取论文内容
 
-Strategy (try in order):
-1. `web_fetch("https://arxiv.org/abs/{id}")` for abstract + metadata
-2. `web_fetch("https://arxiv.org/html/{id}")` for full HTML version (preferred)
-3. If HTML unavailable, `web_fetch("https://ar5iv.labs.arxiv.org/html/{id}")`
+获取策略（按优先级尝试）：
+1. `web_fetch("https://arxiv.org/abs/{id}")` 获取摘要和元信息
+2. `web_fetch("https://arxiv.org/html/{id}")` 获取完整 HTML 版本（首选）
+3. 如 HTML 不可用，尝试 `web_fetch("https://ar5iv.labs.arxiv.org/html/{id}")`
 
-Extract: title, authors, abstract, full text (sections, figures, tables).
+提取：标题、作者、摘要、全文（章节、图表）。
 
-**Important:** If the paper is long (>300 lines), focus on: abstract, introduction,
-method section, experiment results, and conclusion. Skip related work details.
+**注意：** 如果论文较长（>300 行），重点关注：摘要、引言、方法部分、实验结果和结论。跳过相关工作的细节。
 
-## Step 3 — Generate Deep Note
+## 第 3 步 — 生成深度笔记
 
-Use this 7-section template:
+使用以下 7 段式模板：
 
 ```markdown
-# {Paper Title}
+# {论文标题}
 
-> **Authors:** {authors}
-> **Published:** {date} | **arXiv:** [{id}](https://arxiv.org/abs/{id})
-> **Generated:** {today's date}
+> **作者：** {authors}
+> **发表日期：** {date} | **arXiv：** [{id}](https://arxiv.org/abs/{id})
+> **笔记生成日期：** {today's date}
 
-## 1. 一句话总结 (One-Line Summary)
-{One sentence capturing the core contribution}
+## 1. 一句话总结
+{一句话概括核心贡献}
 
-## 2. 动机与问题 (Motivation & Problem)
-- What problem does this paper address?
-- Why is it important / what gap does it fill?
-- What are the limitations of prior work?
+## 2. 动机与问题
+- 这篇论文解决什么问题？
+- 为什么重要/填补了什么空白？
+- 已有工作的局限性是什么？
 
-## 3. 方法 (Method)
-- Core technical approach (with key equations if applicable)
-- Architecture / algorithm overview
-- What makes this different from prior approaches?
+## 3. 方法
+- 核心技术方案（附关键公式，如适用）
+- 架构/算法概览
+- 与已有方法有何不同？
 
-## 4. 实验 (Experiments)
-- Datasets and baselines used
-- Key results (quote specific numbers)
-- Ablation study highlights
+## 4. 实验
+- 使用的数据集和基线方法
+- 关键结果（引用具体数字）
+- 消融实验要点
 
-## 5. 亮点与局限 (Strengths & Limitations)
-**Strengths:**
-- {strength 1}
-- {strength 2}
+## 5. 亮点与局限
+**亮点：**
+- {亮点 1}
+- {亮点 2}
 
-**Limitations:**
-- {limitation 1}
-- {limitation 2}
+**局限：**
+- {局限 1}
+- {局限 2}
 
-## 6. 相关工作脉络 (Related Work Context)
-- Where does this fit in the research landscape?
-- Key related papers and how they differ
+## 6. 相关工作脉络
+- 这篇论文在研究版图中处于什么位置？
+- 关键相关论文及其差异
 
-## 7. 个人思考 (Personal Thoughts)
-- Potential extensions or follow-up ideas
-- Relevance to current research trends
-- Would I recommend reading this? Why?
+## 7. 个人思考
+- 可能的扩展或后续方向
+- 与当前研究趋势的相关性
+- 是否推荐阅读？为什么？
 ```
 
-## Step 4 — Save & Report
+## 第 4 步 — 保存并汇报
 
-Save to the current working directory as `deepnote_{arxiv_id}_{date}.md`.
-Output a brief summary in chat with the file path and the one-line summary.
-
----
-
-## Step 5 — Update Preferences
-
-After delivering the deep note, observe user feedback:
-- If user finds the paper valuable → boost related topic keywords in config.yaml
-- If user says it was not useful → reduce related topic weights
-- If this paper introduces a new research direction for the user → add as new interest
-
-Follow the procedure in `skills/preference-evolving/SKILL.md` to update config.yaml.
+保存到当前工作目录，文件名为 `deepnote_{arxiv_id}_{date}.md`。
+在对话中输出简要摘要、文件路径和一句话总结。
 
 ---
 
-## Quality Guidelines
-- Be specific: quote numbers, name techniques, reference figures/tables
-- Be critical: don't just summarize — evaluate strengths AND weaknesses
-- Be concise: each section should be 3-8 bullet points, not paragraphs
-- Use the paper's own terminology consistently
-- If you cannot access the full paper, be transparent about it and work with the abstract
+## 第 5 步 — 更新偏好
+
+交付深度笔记后，观察用户反馈：
+- 如果用户认为论文有价值 → 在 config.yaml 中提升相关关键词权重
+- 如果用户认为没有帮助 → 降低相关关键词权重
+- 如果该论文为用户引入了新的研究方向 → 添加为新兴趣
+
+按照 `skills/preference-evolving/SKILL.md` 中的流程更新 config.yaml。
+
+---
+
+## 质量准则
+- 要具体：引用数字、命名技术、引用图表
+- 要有批判性：不只是摘要——同时评价优点和不足
+- 要简洁：每个部分 3-8 个要点，而非大段文字
+- 一致使用论文原文中的术语
+- 如果无法获取全文，坦诚说明并基于摘要进行分析
