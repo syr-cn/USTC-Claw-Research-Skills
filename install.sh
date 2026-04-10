@@ -32,6 +32,7 @@ fi
 
 mkdir -p "${INSTALL_DIR}/skills/paper-survey"
 mkdir -p "${INSTALL_DIR}/skills/deep-note"
+mkdir -p "${INSTALL_DIR}/skills/daily-papers/references"
 mkdir -p "${INSTALL_DIR}/skills/preference-evolving"
 mkdir -p "${INSTALL_DIR}/docs"
 
@@ -41,6 +42,8 @@ cp "${TMP_DIR}/repo/README.md"                             "${INSTALL_DIR}/READM
 cp "${TMP_DIR}/repo/docs/install.md"                       "${INSTALL_DIR}/docs/install.md"
 cp "${TMP_DIR}/repo/skills/paper-survey/SKILL.md"          "${INSTALL_DIR}/skills/paper-survey/SKILL.md"
 cp "${TMP_DIR}/repo/skills/deep-note/SKILL.md"             "${INSTALL_DIR}/skills/deep-note/SKILL.md"
+cp "${TMP_DIR}/repo/skills/daily-papers/SKILL.md"          "${INSTALL_DIR}/skills/daily-papers/SKILL.md"
+cp "${TMP_DIR}/repo/skills/daily-papers/references/output-example.md" "${INSTALL_DIR}/skills/daily-papers/references/output-example.md"
 cp "${TMP_DIR}/repo/skills/preference-evolving/SKILL.md"   "${INSTALL_DIR}/skills/preference-evolving/SKILL.md"
 
 # 4. 清理临时文件
@@ -58,6 +61,7 @@ echo "  ├── docs/install.md"
 echo "  └── skills/"
 echo "      ├── paper-survey/SKILL.md         (自动文献综述)"
 echo "      ├── deep-note/SKILL.md            (深度阅读笔记)"
+echo "      ├── daily-papers/SKILL.md         (每日论文推送)"
 echo "      └── preference-evolving/SKILL.md  (偏好自进化)"
 echo ""
 echo "📌 首次使用时会自动引导你配置研究偏好"

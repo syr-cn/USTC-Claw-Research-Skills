@@ -1,9 +1,11 @@
 ---
 name: ustc-claw-research
 description: >
-  即插即用的研究生论文助手，两大核心能力：(1) 给定研究方向，自动 survey 相关论文并生成结构化报告；
-  (2) 给定一篇论文，生成 Deep Note 深度阅读笔记。
+  即插即用的研究生论文助手，三大核心能力：(1) 每日自动推送 arXiv + HuggingFace 热门论文；
+  (2) 给定研究方向，自动 survey 相关论文并生成结构化报告；
+  (3) 给定一篇论文，生成 Deep Note 深度阅读笔记。
   触发词：survey, 帮我调研, 论文综述, deep note, 帮我读, 论文笔记, paper survey, 读这篇论文,
+  每日论文, daily papers, 今日推送, 论文推荐, paper digest,
   安装这个repo, install this repo
 metadata:
   openclaw:
@@ -14,7 +16,7 @@ metadata:
 
 # USTC Claw Research Skills
 
-即插即用的研究生论文助手。两个原子 skill，一句话安装+配置。
+即插即用的研究生论文助手。三个原子 skill + 偏好自进化，一句话安装+配置。
 
 ## 首次使用引导
 
