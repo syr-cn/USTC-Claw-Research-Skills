@@ -20,31 +20,28 @@ mkdir -p "${SKILL_DIR}"
 echo "📥 正在从 GitHub 下载..."
 git clone --depth 1 "${REPO_URL}" "${TMP_DIR}/repo" 2>/dev/null
 
-# 3. 安装（整个目录结构）
+# 3. 安装（原子替换：先装到 temp，再 mv 到目标位置）
 echo "📦 正在安装 skills..."
 
-# 如果已存在旧版本，先备份
-if [ -d "${INSTALL_DIR}" ]; then
-    echo "⚠️  检测到已有安装，备份到 ${INSTALL_DIR}.bak"
-    rm -rf "${INSTALL_DIR}.bak"
-    mv "${INSTALL_DIR}" "${INSTALL_DIR}.bak"
-fi
+STAGE_DIR=$(mktemp -d)
+mkdir -p "${STAGE_DIR}/skills/paper-survey"
+mkdir -p "${STAGE_DIR}/skills/deep-note"
+mkdir -p "${STAGE_DIR}/skills/daily-papers/references"
+mkdir -p "${STAGE_DIR}/skills/preference-evolving"
+mkdir -p "${STAGE_DIR}/docs"
 
-mkdir -p "${INSTALL_DIR}/skills/paper-survey"
-mkdir -p "${INSTALL_DIR}/skills/deep-note"
-mkdir -p "${INSTALL_DIR}/skills/daily-papers/references"
-mkdir -p "${INSTALL_DIR}/skills/preference-evolving"
-mkdir -p "${INSTALL_DIR}/docs"
+cp "${TMP_DIR}/repo/SKILL.md"                              "${STAGE_DIR}/SKILL.md"
+cp "${TMP_DIR}/repo/README.md"                             "${STAGE_DIR}/README.md"
+cp "${TMP_DIR}/repo/docs/install.md"                       "${STAGE_DIR}/docs/install.md"
+cp "${TMP_DIR}/repo/skills/paper-survey/SKILL.md"          "${STAGE_DIR}/skills/paper-survey/SKILL.md"
+cp "${TMP_DIR}/repo/skills/deep-note/SKILL.md"             "${STAGE_DIR}/skills/deep-note/SKILL.md"
+cp "${TMP_DIR}/repo/skills/daily-papers/SKILL.md"          "${STAGE_DIR}/skills/daily-papers/SKILL.md"
+cp "${TMP_DIR}/repo/skills/daily-papers/references/output-example.md" "${STAGE_DIR}/skills/daily-papers/references/output-example.md"
+cp "${TMP_DIR}/repo/skills/preference-evolving/SKILL.md"   "${STAGE_DIR}/skills/preference-evolving/SKILL.md"
 
-# 复制核心文件（不复制 .git）
-cp "${TMP_DIR}/repo/SKILL.md"                              "${INSTALL_DIR}/SKILL.md"
-cp "${TMP_DIR}/repo/README.md"                             "${INSTALL_DIR}/README.md"
-cp "${TMP_DIR}/repo/docs/install.md"                       "${INSTALL_DIR}/docs/install.md"
-cp "${TMP_DIR}/repo/skills/paper-survey/SKILL.md"          "${INSTALL_DIR}/skills/paper-survey/SKILL.md"
-cp "${TMP_DIR}/repo/skills/deep-note/SKILL.md"             "${INSTALL_DIR}/skills/deep-note/SKILL.md"
-cp "${TMP_DIR}/repo/skills/daily-papers/SKILL.md"          "${INSTALL_DIR}/skills/daily-papers/SKILL.md"
-cp "${TMP_DIR}/repo/skills/daily-papers/references/output-example.md" "${INSTALL_DIR}/skills/daily-papers/references/output-example.md"
-cp "${TMP_DIR}/repo/skills/preference-evolving/SKILL.md"   "${INSTALL_DIR}/skills/preference-evolving/SKILL.md"
+# 原子替换：删旧目录，把 staging 目录移过去
+rm -rf "${INSTALL_DIR}"
+mv "${STAGE_DIR}" "${INSTALL_DIR}"
 
 # 4. 清理临时文件
 echo "🧹 清理临时文件..."
