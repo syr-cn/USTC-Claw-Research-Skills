@@ -20,9 +20,9 @@ metadata:
 
 ## 首次使用引导
 
-**触发条件：** 每次 skill 被激活时，检查安装目录下是否存在 `config.yaml`。
+**触发条件：** 每次 skill 被激活时，依次检查两项配置。
 
-**引导流程：**
+### 引导 1 — 研究偏好（config.yaml）
 
 1. 读取 skill 安装目录（`skills/preference-evolving/config.yaml` 或当前 skill 根目录下的 `config.yaml`），判断文件是否存在。
 2. 如果 `config.yaml` **不存在**，主动向用户发问：
@@ -31,9 +31,42 @@ metadata:
 4. 从用户回复中提取研究方向关键词列表。
 5. 按照下方 **安装流程** 中的 config.yaml 格式生成配置文件，写入 `skills/preference-evolving/config.yaml`。
 6. 回复确认：
-   > 已配置完成！你的研究方向：[关键词列表]。现在可以使用 `survey [方向]` 或 `帮我读 [论文链接]` 开始探索了。
+   > 已配置完成！你的研究方向：[关键词列表]。
 
-如果 `config.yaml` **已存在**，跳过引导，直接执行用户请求的 skill。
+如果 `config.yaml` **已存在**，跳过此步。
+
+### 引导 2 — 定时推送（cron jobs）
+
+在引导 1 完成后（或 config.yaml 已存在时），检查是否已配置定时推送任务。
+
+**检测方法：** 运行 `openclaw cron list --json`，检查输出中是否存在以下两个 job name：
+- `每日论文推送`
+- `每日USTC日报推送`
+
+**对于每个缺失的 job，向用户询问推送时间并自动创建：**
+
+1. 如果 `每日论文推送` 不存在，询问：
+   > 检测到还没有配置每日论文推送的定时任务。你希望每天几点收到 arXiv + HuggingFace 论文推送？（24小时制 HH:MM，默认 10:00，直接回车使用默认值）
+2. 如果 `每日USTC日报推送` 不存在，询问：
+   > 你希望每天几点收到 USTC 日报推送？（24小时制 HH:MM，默认 12:00，直接回车使用默认值）
+3. 将用户输入的时间（或默认值）转为 cron 表达式，执行：
+   ```bash
+   # 每日论文推送（假设用户输入 10:00）
+   openclaw cron add --name "每日论文推送" --cron "0 10 * * *" --tz "Asia/Shanghai" \
+     --system-event "每日论文推送：搜索今天的 arXiv 和 HuggingFace trending 论文，按研究方向筛选，输出简报。" \
+     --session main --exact
+
+   # 每日USTC日报推送（假设用户输入 12:00）
+   openclaw cron add --name "每日USTC日报推送" --cron "0 12 * * *" --tz "Asia/Shanghai" \
+     --system-event "每日USTC日报推送：生成并推送今日 USTC 日报。" \
+     --session main --exact
+   ```
+4. 回复确认：
+   > 定时推送已配置！每日论文推送 {HH:MM}，USTC 日报推送 {HH:MM}（Asia/Shanghai）。
+
+如果两个 job 都已存在，跳过此步，直接执行用户请求的 skill。
+
+**注意：** 用户可以回复「跳过」或「不需要」来跳过某个 cron 的配置。
 
 ---
 
